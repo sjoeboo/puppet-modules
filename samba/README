@@ -1,0 +1,30 @@
+A Simple Module to manage Samba the way I like it!
+
+We (work) generally have a bunch of Samba servers, each bound to out domain exactly the same way, and each hosting a handful (mostly 1, some up to 5) samba shares. We keep it simple.
+
+This module uses 2 templates:
+
+1 for the smb.conf: smb.conf.erb
+1 for each share config (included from smb.conf) smb_share.conf.erb
+
+Compatability: Tested on CentOS 5/6. Should work on RHEL 5/6. Ubuntu/Debian will require some changes for pacakges/services.
+Usage:
+
+Edit the smb.conf.erb template for your environment.
+
+Use on a node:
+
+node 'something.com' {
+	include samba
+        samba::config { 'something.com':
+                includeconf => ['share1','share2'],
+        }
+        samba::share { 'share1':
+                name => 'share1',
+                path => '/share1',
+        }
+        samba::share { 'share2':
+                name => "share2",
+                path => "/share2"
+        }
+}

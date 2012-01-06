@@ -1,0 +1,51 @@
+#Puppet Template
+#From here until the template end all hosts should get.
+[global]
+# general options
+        workgroup = WORKGROUP
+
+# winbindd configuration
+# default winbind separator is \, which is good if you
+# use mod_ntlm since that is the character it uses.
+# users only need to know the one syntax
+        winbind separator = +
+
+#       load printers = no
+# idmap uid and idmap gid are aliases for
+# winbind uid and winbid gid, respectively
+        idmap uid = 10000-20000
+        idmap gid = 10000-20000
+        winbind enum users = yes
+        winbind enum groups = yes
+
+# Active directory joining
+# "ads server" is only necessary if your kdc
+# can't be located using /etc/krb5.conf -- JamesSpooner
+#
+# Note that more recent Samba versions have renamed "ads server"
+# to "password server", so if /var/log/messages reports
+# 'Unknown parameter encountered: "ads server"' on restart,
+# change 'ads' to 'password' -- ChetHosey
+#
+#ads server = 10.242.40.19
+        security = ADS
+        netbios name = <%= name %>
+# encrypt passwords = yes is now default in Samba3 -- Enigma
+        realm = YOUR_DOMAIN
+# this handles the "ads server = " directive as well -- Enigma
+        password server = YOUR_AD_SERVERS
+        server string =
+log level = 3
+log file = /var/log/samba/%m
+#
+#
+#Puppet Template End
+<% if includeconf -%>
+<% if includeconf.is_a? Array -%>
+<% includeconf.each do |name| -%>
+<%= "include=/etc/smb/smb_#{name}.conf\n" %>
+<% end -%>
+<%else -%>
+include=/etc/smb/smb_<%= includeconf %>.conf
+<% end -%>
+<% end -%>

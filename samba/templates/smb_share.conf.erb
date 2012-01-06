@@ -1,0 +1,21 @@
+#============================ Share Definitions ==============================
+[<%= name %>]
+	available = yes
+<% if path -%>
+	path = <%= path %>
+<% end -%>
+<% if writeable -%>
+	writeable = <%= writeable %>
+<% end -%>
+<% if create_mask -%>
+	create mask = <%= create_mask %>
+<% end -%>
+<% if dir_mask -%>
+	directory mask = <%= dir_mask %>
+<% end -%>
+<% if hosts_allow -%>
+	hosts alls = <%= hosts_allow %>
+<% end -%>
+<% if hosts_deny -%>
+	hosts alls = <%= hosts_deny %>
+<% end -%>
