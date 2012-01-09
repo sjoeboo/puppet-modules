@@ -1,0 +1,11 @@
+A simple NFS module.
+
+Installs the needed packages
+Configures NFS the way I like it (static port ranges, etc)
+and drops in $hostname.exports into /etc/exports for you. 
+
+Usage:
+
+node 'somenode.com' {
+	include nfs::server
+	}
