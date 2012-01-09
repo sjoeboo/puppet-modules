@@ -43,9 +43,9 @@ log file = /var/log/samba/%m
 <% if includeconf -%>
 <% if includeconf.is_a? Array -%>
 <% includeconf.each do |name| -%>
-<%= "include=/etc/smb/smb_#{name}.conf\n" %>
+<%= "include=/etc/samba/smb_#{name}.conf\n" %>
 <% end -%>
 <%else -%>
-include=/etc/smb/smb_<%= includeconf %>.conf
+include=/etc/samba/smb_<%= includeconf %>.conf
 <% end -%>
 <% end -%>
