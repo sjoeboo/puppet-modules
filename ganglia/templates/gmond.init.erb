@@ -1,0 +1,45 @@
+#!/bin/sh
+# $Id: gmond.init 180 2003-03-07 20:38:36Z sacerdoti $
+#
+# chkconfig: 2345 70 40
+# description: gmond startup script
+#
+GMOND=/usr/sbin/gmond_<%= gmond_name %>
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+case "$1" in
+   start)
+      echo -n "Starting GANGLIA gmond_<%= gmond_name%>: "
+      [ -f $GMOND ] || exit 1
+
+      daemon $GMOND --conf=/etc/ganglia/gmond_<%= gmond_name%>.conf
+      RETVAL=$?
+      echo
+      [ $RETVAL -eq 0 ] && touch /var/lock/subsys/gmond_<%= gmond_name%>
+	;;
+
+  stop)
+      echo -n "Shutting down GANGLIA gmond_<%= gmond_name%>: "
+      killproc gmond_<%= gmond_name%>
+      RETVAL=$?
+      echo
+      [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/gmond_<%= gmond_name%>
+	;;
+
+  restart|reload)
+   	$0 stop
+   	$0 start
+   	RETVAL=$?
+	;;
+  status)
+   	status gmond_<%= gmond_name%>
+   	RETVAL=$?
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|status}"
+	exit 1
+esac
+
+exit $RETVAL
